@@ -5,6 +5,7 @@
 //! async await 
 
 const row = document.querySelector('.row') //row u çektik
+let sepet = []
 // console.log(row)
 
 async function fetchData() {
@@ -26,7 +27,7 @@ fetchData()
         //     console.log(data[i].title)
         // }
 
-        let sepet = []
+
 
 
 
@@ -65,7 +66,7 @@ fetchData()
             baslik.textContent = urun.title
 
             const aciklama = document.createElement('p')
-            aciklama.textContent = `${urun.description} - ${urun.price}$ `
+            aciklama.textContent = ` ${urun.price}$ `
 
 
             const btn = document.createElement('button')
@@ -79,8 +80,23 @@ fetchData()
 
                 sepet.push(urun)
 
+                sepet.forEach(urun => {
+                    const urunAdi = document.createElement('p')
+                    urunAdi.textContent = urun.title
+
+
+                    cart.append(urunAdi)
+
+                })
+
+
+                let sepetJSON = JSON.stringify(sepet)
+                console.log(sepetJSON)
+
+                localStorage.setItem('sepet', sepetJSON)
+
                 console.log(sepet)
-                
+
             })
 
             cardBody.append(baslik)
@@ -103,3 +119,31 @@ fetchData()
 
 
     })
+
+
+//! Shopping cartı çekiyoruz
+const cartIcon = document.querySelector('.fa-cart-shopping')
+const cart = document.querySelector('#sepet')
+
+cartIcon.addEventListener('click', () => {
+    cart.classList.toggle('aktif')
+})
+
+
+
+let localSepet = localStorage.getItem('sepet')
+let normalSepet = JSON.parse(localSepet)
+
+console.log(normalSepet)
+
+normalSepet.forEach(urun => {
+
+    const baslik = document.createElement('p')
+    baslik.textContent = urun.title
+
+
+    cart.append(baslik)
+
+})
+
+
